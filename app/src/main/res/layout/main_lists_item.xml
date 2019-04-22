@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.android.shopup.ui.fragments.mainlistsfragment.listsrecycler.ListsRecyclerItemViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainListsItemContainer"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/main_lists_item_background"
+            android:elevation="4dp">
+
+            <TextView
+                android:id="@+id/mainListsName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:textSize="@dimen/standardMainListsItemTextSize"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="ListName" />
+
+            <TextView
+                android:id="@+id/mainListsMaxItems"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/mainCoolColor"
+                android:textSize="@dimen/standardMainListsItemTextSize"
+                app:layout_constraintBottom_toBottomOf="@+id/mainListsName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mainListsName"
+                tools:text="10" />
+
+            <TextView
+                android:id="@+id/mainListsSeparator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_lists_separator"
+                android:textColor="@color/mainCoolColor"
+                android:textSize="@dimen/standardMainListsItemTextSize"
+                app:layout_constraintBottom_toBottomOf="@+id/mainListsName"
+                app:layout_constraintEnd_toStartOf="@+id/mainListsMaxItems"
+                app:layout_constraintTop_toTopOf="@+id/mainListsName" />
+
+            <TextView
+                android:id="@+id/mainListsItemsNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/mainCoolColor"
+                android:textSize="@dimen/standardMainListsItemTextSize"
+                app:layout_constraintBottom_toBottomOf="@+id/mainListsName"
+                app:layout_constraintEnd_toStartOf="@+id/mainListsSeparator"
+                app:layout_constraintTop_toTopOf="@+id/mainListsName"
+                tools:text="4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+</layout>

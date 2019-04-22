@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.android.shopup.ui.fragments.namelistfragment.NameListViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/mainCoolColor">
+
+            <EditText
+                android:id="@+id/nameListEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="8dp"
+                android:hint="New List"
+                android:textColorHint="@color/colorAccent"
+                android:maxLines="1"
+                android:text="@={viewModel.createListName}"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonBack"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/namelist_button"
+                android:textColor="@color/white"
+                android:onClick="@{viewModel.onBackPressed}"
+                android:text="Back"
+                app:layout_constraintEnd_toStartOf="@+id/buttonCreateList"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/nameListEditText"
+                app:layout_constraintTop_toBottomOf="@+id/nameListEditText" />
+
+            <Button
+                android:id="@+id/buttonCreateList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:buttonViewBackground="@{viewModel.createListButtonBackground}"
+                android:text="Create list"
+                android:onClick="@{viewModel.openListFragment}"
+                android:textColor="@{viewModel.createListButtonTextColor}"
+                app:layout_constraintBottom_toBottomOf="@+id/buttonBack"
+                app:layout_constraintEnd_toEndOf="@+id/nameListEditText"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/buttonBack"
+                app:layout_constraintTop_toTopOf="@+id/buttonBack" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

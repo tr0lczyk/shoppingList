@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ShopUp</string>
+    <string name="empty_main_lists_text">There are no lists for now...you should create one before shopping :)</string>
+    <string name="empty_lists_text">There are no items in this list for now...you should add some before shopping :)</string>
+    <string name="main_lists_separator">/</string>
+    <string name="newListPlaceholder">New List</string>
+</resources>
