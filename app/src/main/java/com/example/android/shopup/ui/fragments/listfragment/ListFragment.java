@@ -1,11 +1,8 @@
 package com.example.android.shopup.ui.fragments.listfragment;
 
-import android.graphics.Point;
 import android.os.Bundle;
-import android.view.Display;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,9 +20,6 @@ import static com.example.android.shopup.ui.activities.MainActivity.LIST_NAME;
 public class ListFragment extends BaseFragment {
 
     public static final String ARG_FRAGMENT = "listFragment";
-    int width;
-    int height;
-    int fabHeight;
 
     public static Fragment newInstance(int id, Bundle bundle) {
         Bundle args = bundle;
@@ -109,12 +103,6 @@ public class ListFragment extends BaseFragment {
     }
 
     public void openAddListItemMenu(){
-        measureDisplay();
-        getViewDataBinding().listAddItemMenuButton.measure(width,height);
-        getViewDataBinding().listAddItemMenuButton.animate().translationX(getViewDataBinding().listAddItemMenuButton.getMeasuredWidth()*2).start();
-        ConstraintLayout.LayoutParams containerSize = (ConstraintLayout.LayoutParams) getViewDataBinding().addItemContainer.getLayoutParams();
-        int addItemHeight = containerSize.height;
-        getViewDataBinding().addItemContainer.animate().translationY(-addItemHeight).start();
         getViewDataBinding().addItemEditText.requestFocus();
         UIUtil.showKeyboard(getActivity(),getViewDataBinding().addItemEditText);
     }
@@ -126,11 +114,4 @@ public class ListFragment extends BaseFragment {
         getViewDataBinding().listAddItemMenuButton.animate().translationX(0).start();
     }
 
-    private void measureDisplay(){
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        width = size.x;
-        height = size.y;
-    }
 }

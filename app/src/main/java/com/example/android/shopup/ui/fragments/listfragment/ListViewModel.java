@@ -13,18 +13,18 @@ import com.example.android.shopup.utils.Navigator;
 public class ListViewModel extends BaseAndroidViewModel {
 
     public ObservableField<Integer> emptyListTextVisibility;
-    public ObservableField<Integer> addItemMenuButtonVisibility;
-    public ObservableField<Integer> addItemMenuVisibility;
     public ObservableField<String> listName;
+    public ObservableField<Boolean> fabAnimationStart;
+    public ObservableField<Boolean> menuAddAnimationStart;
     public ListItemRecyclerViewModel listItemRecyclerViewModel;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
         emptyListTextVisibility = new ObservableField<>(View.GONE);
-        addItemMenuVisibility = new ObservableField<>(View.GONE);
-        addItemMenuButtonVisibility = new ObservableField<>(View.VISIBLE);
         listItemRecyclerViewModel = new ListItemRecyclerViewModel();
         listName = new ObservableField<>();
+        fabAnimationStart = new ObservableField<>();
+        menuAddAnimationStart = new ObservableField<>();
     }
 
     public void setupListRecyclerAdapter(){
@@ -39,14 +39,14 @@ public class ListViewModel extends BaseAndroidViewModel {
     }
 
     public void openAddItemMenu(View view){
-        addItemMenuVisibility.set(View.VISIBLE);
-//        addItemMenuButtonVisibility.set(View.GONE);
+        fabAnimationStart.set(true);
+        menuAddAnimationStart.set(true);
         getNavigator().moveForward(Navigator.Options.OPEN_ADD_LIST_MENU);
     }
 
     public void closeAddItemMenu(View view){
-//        addItemMenuVisibility.set(View.GONE);
-//        addItemMenuButtonVisibility.set(View.VISIBLE);
+        fabAnimationStart.set(false);
+        menuAddAnimationStart.set(false);
         getNavigator().moveForward(Navigator.Options.CLOSE_ADD_LIST_MENU);
     }
 }

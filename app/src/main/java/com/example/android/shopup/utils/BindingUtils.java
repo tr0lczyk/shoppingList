@@ -23,6 +23,7 @@ import androidx.databinding.InverseBindingListener;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class BindingUtils {
 
@@ -177,5 +178,26 @@ public class BindingUtils {
     public static void setShowMapButtonAnimation(CardView constraintLayout, boolean startAnimation) {
         constraintLayout.animate().setDuration(300)
                 .translationY(startAnimation ? constraintLayout.getHeight() + 100 : 0);
+    }
+
+    @BindingAdapter("setFabAnimation")
+    public static void setFabAnimation(FloatingActionButton floatingActionButton, boolean startAnimation) {
+        if(startAnimation){
+            floatingActionButton.animate().translationX(floatingActionButton.getWidth()*2).start();
+        } else {
+            floatingActionButton.animate().translationY(0).start();
+        }
+    }
+
+    @BindingAdapter("setContainerAnimation")
+    public static void setContainerAnimation(ConstraintLayout constraintLayout, boolean startAnimation) {
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) constraintLayout.getLayoutParams();
+        int addItemHeight = layoutParams.height;
+        if(startAnimation){
+            constraintLayout.animate().translationY(-addItemHeight).start();
+        } else {
+            constraintLayout.animate().translationY(0).start();
+
+        }
     }
 }
