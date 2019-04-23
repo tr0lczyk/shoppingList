@@ -14,6 +14,8 @@ import com.example.android.shopup.ui.fragments.namelistfragment.NameListFragment
 import com.example.android.shopup.utils.BaseActivity;
 import com.example.android.shopup.utils.BaseAndroidViewModel;
 
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
+
 public class MainActivity extends BaseActivity {
 
     public static final int MAIN_LISTS_ID = 1;
@@ -53,7 +55,7 @@ public class MainActivity extends BaseActivity {
         super.afterViews(savedInstanceState);
         getViewDataBinding().setViewModel(getViewModel());
         getViewModel().attachNavigator(this);
-        moveForward(Options.OPEN_MAIN_LISTS_FRAGMENT);
+        moveForward(Options.OPEN_MAIN_LISTS_FRAGMENT);;
     }
 
     @Override
@@ -82,22 +84,24 @@ public class MainActivity extends BaseActivity {
                         .commit();
                 break;
             case OPEN_LIST_FRAGMENT:
-                Bundle listBundle = new Bundle();
-                if(data[0] != null){
-                    listBundle.putString(LIST_NAME, (String) data[0]);
-                }
                 FragmentTransaction listTransaction = fragmentManager.beginTransaction();
                 addEnterExitAnimationsRight(listTransaction);
                 listTransaction
                         .replace(
                                 R.id.mainContainer,
-                                ListFragment.newInstance(LIST_ID, listBundle)
+                                ListFragment.newInstance(LIST_ID, new Bundle())
                         )
                         .addToBackStack("listTransaction")
                         .commit();
                 break;
             case ON_BACK_PRESSED:
                 onBackPressed();
+                break;
+            case POP_BACKSTACK:
+                fragmentManager.popBackStack();
+                break;
+            case HIDE_KEYBOARD:
+                UIUtil.hideKeyboard(this);
                 break;
         }
     }

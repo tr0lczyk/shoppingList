@@ -4,6 +4,9 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+
 import com.example.android.shopup.database.dao.ShoppingListDao;
 import com.example.android.shopup.models.ShoppingList;
 
@@ -12,9 +15,9 @@ import java.util.List;
 public class ShoppingListsRepository extends BaseRepository<ShoppingList> {
 
     private ShoppingListDao shoppingListDao;
-    private List<ShoppingList> shoppingLists;
-    private List<ShoppingList> shoppingListsActive;
-    private List<ShoppingList> shoppingListsArchived;
+    private LiveData<List<ShoppingList>> shoppingLists;
+    private LiveData<List<ShoppingList>> shoppingListsActive;
+    private LiveData<List<ShoppingList>> shoppingListsArchived;
     public static final String TAG = "shoppingListsRepository";
 
     public ShoppingListsRepository(Application application) {
@@ -46,20 +49,20 @@ public class ShoppingListsRepository extends BaseRepository<ShoppingList> {
     }
 
     @Override
-    public List<ShoppingList> getAllObjects() {
+    public LiveData<List<ShoppingList>> getAllObjects() {
         return shoppingLists;
     }
 
     @Override
-    public ShoppingList getOneObject(int id) {
+    public LiveData<ShoppingList> getOneObject(int id) {
         return shoppingListDao.getOneItem(id);
     }
 
-    public List<ShoppingList> getAllActiveLists() {
+    public LiveData<List<ShoppingList>> getAllActiveLists() {
         return shoppingListsActive;
     }
 
-    public List<ShoppingList> getAllArchivedLists() {
+    public LiveData<List<ShoppingList>> getAllArchivedLists() {
         return shoppingListsArchived;
     }
 
@@ -74,7 +77,8 @@ public class ShoppingListsRepository extends BaseRepository<ShoppingList> {
         @Override
         protected Void doInBackground(ShoppingList... shoppingLists) {
             shoppingListDao.insert(shoppingLists[0]);
-            Log.d(TAG,"INSERT_CATEGORY " + shoppingLists[0].name);
+            Log.d(TAG,"INSERT_NAME " + shoppingLists[0].name);
+            Log.d(TAG,"INSERT_NAME " + shoppingLists[0].id);
             return null;
         }
     }

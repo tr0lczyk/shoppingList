@@ -1,18 +1,27 @@
 package com.example.android.shopup.ui.fragments.mainlistsfragment;
 
 import android.os.Bundle;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.shopup.R;
 import com.example.android.shopup.databinding.FragmentMainListsBinding;
+import com.example.android.shopup.models.ShoppingList;
 import com.example.android.shopup.utils.BaseAndroidViewModel;
 import com.example.android.shopup.utils.BaseFragment;
+
+import java.util.List;
 
 public class MainListsFragment extends BaseFragment {
 
     public static final String ARG_FRAGMENT = "mainListsFragment";
+    private static final String TAG = "mainListsFragment";
 
     public static Fragment newInstance(int id, Bundle bundle) {
         Bundle args = bundle;
@@ -52,9 +61,30 @@ public class MainListsFragment extends BaseFragment {
         super.afterViews(savedInstanceState);
         getViewDataBinding().setViewModel(getViewModel());
         getViewModel().attachNavigator(this);
-
         setupMainListsRecycler();
-        getViewModel().setupMainListsRecyclerAdapter();
+        getViewModel().getAllShoppingLists().observe(getActivity(), new Observer<List<ShoppingList>>() {
+            @Override
+            public void onChanged(List<ShoppingList> shoppingLists) {
+                getViewModel().setupMainListsRecyclerAdapter();
+            }
+        });
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                if(direction == ItemTouchHelper.LEFT){
+                   ShoppingList currentShoppingList = getViewModel().allShoppingLists.getValue().get(viewHolder.getAdapterPosition());
+                   getViewModel().shoppingListsRepository.delete(currentShoppingList);
+                } else {
+
+                }
+            }
+        }).attachToRecyclerView(getViewDataBinding().mainListsRecycler);
     }
 
     private void setupMainListsRecycler(){

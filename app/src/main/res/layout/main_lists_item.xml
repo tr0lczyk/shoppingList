@@ -34,7 +34,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="ListName" />
+                android:text="@{viewModel.shoppingListName}" />
 
             <TextView
                 android:id="@+id/mainListsMaxItems"
@@ -46,7 +46,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/mainListsName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/mainListsName"
-                tools:text="10" />
+                android:text="@{viewModel.shoppingListShoppingItemsTotalNumber}" />
 
             <TextView
                 android:id="@+id/mainListsSeparator"
@@ -68,7 +68,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/mainListsName"
                 app:layout_constraintEnd_toStartOf="@+id/mainListsSeparator"
                 app:layout_constraintTop_toTopOf="@+id/mainListsName"
-                tools:text="4" />
+                android:text="@{viewModel.shoppingListShoppingItemsBoughtNumber}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

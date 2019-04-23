@@ -4,4 +4,5 @@
     <string name="empty_lists_text">There are no items in this list for now...you should add some before shopping :)</string>
     <string name="main_lists_separator">/</string>
     <string name="newListPlaceholder">New List</string>
+    <string name="nameListWarning">Please name your list :)</string>
 </resources>

@@ -2,6 +2,11 @@ package com.example.android.shopup.database.repository;
 
 import android.app.Application;
 
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+
+import com.example.android.shopup.models.ShoppingList;
+
 import java.util.List;
 
 abstract class BaseRepository<T> {
@@ -20,7 +25,7 @@ abstract class BaseRepository<T> {
 
     public abstract void nukeAllObjects();
 
-    public abstract List<T> getAllObjects();
+    public abstract LiveData<List<T>> getAllObjects();
 
-    public abstract T getOneObject(int id);
+    public abstract LiveData<T> getOneObject(int id);
 }

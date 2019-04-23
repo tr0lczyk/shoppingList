@@ -11,15 +11,15 @@ import com.example.android.shopup.database.dao.ShoppingListDao;
 import com.example.android.shopup.database.typeconverters.Converters;
 import com.example.android.shopup.models.ShoppingList;
 
-@Database(entities = ShoppingList.class, version = 1, exportSchema = false)
+@Database(entities = ShoppingList.class, version = 2)
 @TypeConverters({Converters.class})
 abstract class ShopUpDatabase extends RoomDatabase {
 
     private static ShopUpDatabase db;
 
-    abstract ShoppingListDao getSgoppingListDao();
+    public abstract ShoppingListDao getSgoppingListDao();
 
-    static synchronized ShopUpDatabase getInstance(Context context) {
+    public static synchronized ShopUpDatabase getInstance(Context context) {
         if (db == null) {
             db = Room.databaseBuilder(context.getApplicationContext(),
                     ShopUpDatabase.class,

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.example.android.shopup.models.ShoppingList;
 import com.example.android.shopup.utils.BaseItemView;
 import com.example.android.shopup.utils.RecyclerViewModel;
 
@@ -19,7 +20,6 @@ public class ListsRecyclerViewModel extends RecyclerViewModel<ListsRecyclerItemV
         listsRecyclerItemViewModels = new ArrayList<>();
     }
 
-
     @NonNull
     @Override
     public BaseItemView<ListsRecyclerItemViewModel> createItemView(Context context, int ViewType) {
@@ -27,11 +27,11 @@ public class ListsRecyclerViewModel extends RecyclerViewModel<ListsRecyclerItemV
         return listsRecyclerItem;
     }
 
-    public void setListsToRecycler(){
+    public void setListsToRecycler(List<ShoppingList> shoppingLists){
         adapter.clearItems();
         listsRecyclerItemViewModels.clear();
-        for(int i = 0; i < 10; i++){
-            listsRecyclerItemViewModels.add(new ListsRecyclerItemViewModel());
+        for(ShoppingList shoppingList : shoppingLists){
+            listsRecyclerItemViewModels.add(new ListsRecyclerItemViewModel(shoppingList));
         }
         handleResponse(this,listsRecyclerItemViewModels);
     }

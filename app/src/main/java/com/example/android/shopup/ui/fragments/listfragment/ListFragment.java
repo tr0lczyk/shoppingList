@@ -1,25 +1,31 @@
 package com.example.android.shopup.ui.fragments.listfragment;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.shopup.R;
 import com.example.android.shopup.databinding.FragmentListBinding;
+import com.example.android.shopup.models.ShoppingList;
 import com.example.android.shopup.utils.BaseAndroidViewModel;
 import com.example.android.shopup.utils.BaseFragment;
 
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
+
+import java.util.List;
 
 import static com.example.android.shopup.ui.activities.MainActivity.LIST_NAME;
 
 public class ListFragment extends BaseFragment {
 
     public static final String ARG_FRAGMENT = "listFragment";
+    private static final String TAG = "listFragment";
 
     public static Fragment newInstance(int id, Bundle bundle) {
         Bundle args = bundle;
@@ -59,14 +65,16 @@ public class ListFragment extends BaseFragment {
         super.afterViews(savedInstanceState);
         getViewDataBinding().setViewModel(getViewModel());
         getViewModel().attachNavigator(this);
-        UIUtil.hideKeyboard(getActivity());
+        getViewModel().getAllShoppingLists().observe(getActivity(), new Observer<List<ShoppingList>>() {
+            @Override
+            public void onChanged(List<ShoppingList> shoppingLists) {
+                if(shoppingLists != null && !shoppingLists.isEmpty()){
+                    getViewModel().listName.set(shoppingLists.get(0).name);
+                }
+            }
+        });
         setupMainListsRecycler();
         getViewModel().setupListRecyclerAdapter();
-        if(getArguments().getString(LIST_NAME) != null){
-            getViewModel().listName.set(getArguments().getString(LIST_NAME));
-        } else {
-            getViewModel().listName.set(String.valueOf(R.string.newListPlaceholder));
-        }
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override

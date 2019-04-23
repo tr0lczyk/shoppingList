@@ -108,6 +108,7 @@
                     android:paddingEnd="10dp"
                     android:paddingBottom="4dp"
                     android:textSize="16sp"
+                    android:text="@={viewModel.newItemName}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/listAddItemButton"
                     app:layout_constraintStart_toStartOf="parent"

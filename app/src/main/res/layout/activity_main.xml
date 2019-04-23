@@ -9,7 +9,6 @@
             type="com.example.android.shopup.ui.activities.MainActivityViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
