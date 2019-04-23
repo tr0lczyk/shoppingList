@@ -5,7 +5,9 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
 import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableList;
 import androidx.lifecycle.LiveData;
 
 import com.example.android.shopup.database.repository.ShoppingListsRepository;
@@ -15,6 +17,7 @@ import com.example.android.shopup.ui.fragments.listfragment.listitemrecycler.Lis
 import com.example.android.shopup.utils.BaseAndroidViewModel;
 import com.example.android.shopup.utils.Navigator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListViewModel extends BaseAndroidViewModel {
@@ -28,6 +31,7 @@ public class ListViewModel extends BaseAndroidViewModel {
     public ListItemRecyclerViewModel listItemRecyclerViewModel;
     private ShoppingListsRepository shoppingListsRepository;
     LiveData<List<ShoppingList>> allShoppingLists;
+    List<ShoppingItem> shoppingItems;
 
     public ListViewModel(@NonNull Application application) {
         super(application);
@@ -42,10 +46,7 @@ public class ListViewModel extends BaseAndroidViewModel {
     }
 
     public void setupListRecyclerAdapter(){
-        listItemRecyclerViewModel.setListItemsToAdapter();
-    }
-    public void setupListRecyclerAdapter2(){
-        listItemRecyclerViewModel.setListItemsToAdapter2();
+        listItemRecyclerViewModel.setListItemsToAdapter(shoppingItems);
     }
 
     public void addNewItem(View view){

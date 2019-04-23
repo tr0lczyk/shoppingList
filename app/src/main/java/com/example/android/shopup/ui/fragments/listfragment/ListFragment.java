@@ -70,11 +70,11 @@ public class ListFragment extends BaseFragment {
             public void onChanged(List<ShoppingList> shoppingLists) {
                 if(shoppingLists != null && !shoppingLists.isEmpty()){
                     getViewModel().listName.set(shoppingLists.get(0).name);
+                    getViewModel().shoppingItems = shoppingLists.get(0).shoppingItems;
                 }
             }
         });
         setupMainListsRecycler();
-        getViewModel().setupListRecyclerAdapter();
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -85,9 +85,9 @@ public class ListFragment extends BaseFragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if(direction == ItemTouchHelper.LEFT){
-                    getViewModel().setupListRecyclerAdapter2();
-                } else {
                     getViewModel().setupListRecyclerAdapter();
+                } else {
+
                 }
             }
         }).attachToRecyclerView(getViewDataBinding().listRecycler);
