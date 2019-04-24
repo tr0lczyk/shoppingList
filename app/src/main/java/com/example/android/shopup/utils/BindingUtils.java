@@ -17,6 +17,11 @@ public class BindingUtils {
         view.setBackgroundResource(drawableId);
     }
 
+    @BindingAdapter("textViewTextColor")
+    public static void textViewTextColor(TextView view, int color) {
+        view.setTextColor(ContextCompat.getColor(view.getContext(),color));
+    }
+
     @BindingAdapter("android:buttonViewBackground")
     public static void buttonViewBackground(Button view, int drawableId) {
         view.setBackgroundResource(drawableId);

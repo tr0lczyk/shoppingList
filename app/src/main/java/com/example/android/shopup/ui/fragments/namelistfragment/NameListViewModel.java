@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.Observable;
 import androidx.databinding.ObservableField;
 
@@ -25,8 +24,7 @@ public class NameListViewModel extends BaseAndroidViewModel {
 
     public NameListViewModel(@NonNull Application application) {
         super(application);
-        createListButtonTextColor = new ObservableField<>(
-                ContextCompat.getColor(getApplication().getApplicationContext(), R.color.white));
+        createListButtonTextColor = new ObservableField<>(R.color.white);
         createListButtonBackground = new ObservableField<>(R.drawable.namelist_button);
         createListName = new ObservableField<>();
         createListNameFilled = new ObservableField<>(false);
@@ -46,14 +44,12 @@ public class NameListViewModel extends BaseAndroidViewModel {
     }
 
     private void nameListEditTextFilled() {
-        createListButtonTextColor.set(ContextCompat.getColor(
-                getApplication().getApplicationContext(), R.color.mainCoolColor));
+        createListButtonTextColor.set(R.color.mainCoolColor);
         createListButtonBackground.set(R.drawable.namelist_filled_button);
     }
 
     private void nameListEditTextEmpty() {
-        createListButtonTextColor.set(ContextCompat.getColor(
-                getApplication().getApplicationContext(), R.color.white));
+        createListButtonTextColor.set(R.color.white);
         createListButtonBackground.set(R.drawable.namelist_button);
     }
 

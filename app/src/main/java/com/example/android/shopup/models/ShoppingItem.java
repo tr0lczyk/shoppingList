@@ -9,12 +9,4 @@ public class ShoppingItem {
         this.name = name;
         this.isBought = false;
     }
-
-    public boolean isBought() {
-        return isBought;
-    }
-
-    public void setBought(boolean bought) {
-        isBought = bought;
-    }
 }

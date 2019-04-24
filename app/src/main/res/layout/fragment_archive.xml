@@ -80,7 +80,7 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="4dp"
-                android:onClick="@{viewModel.openMainListsFragment}"
+                android:onClick="@{viewModel::openMainListsFragment}"
                 android:text="@string/active_lists"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/archiveRecycler"

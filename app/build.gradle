@@ -51,4 +51,9 @@ dependencies {
 
     //Gson
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    //tests
+    testImplementation 'org.hamcrest:hamcrest:2.1'
+    testImplementation 'org.hamcrest:hamcrest-library:2.1'
+    testImplementation 'org.mockito:mockito-core:2.27.0'
 }

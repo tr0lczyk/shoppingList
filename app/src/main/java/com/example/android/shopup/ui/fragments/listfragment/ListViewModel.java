@@ -68,7 +68,11 @@ public class ListViewModel extends BaseAndroidViewModel {
 
     public void setupListRecyclerAdapter() {
         if (shoppingItems.getValue().isEmpty()) {
-            emptyListTextVisibility.set(View.VISIBLE);
+            if(!isArchived.get()){
+                emptyListTextVisibility.set(View.VISIBLE);
+            } else {
+                emptyListTextVisibility.set(View.GONE);
+            }
             infoMessageVisibility.set(View.GONE);
             listItemRecyclerViewModel.setListItemsToAdapter(shoppingItems.getValue(),
                     isArchived.get());
