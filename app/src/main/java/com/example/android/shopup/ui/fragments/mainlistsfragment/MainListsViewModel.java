@@ -2,17 +2,14 @@ package com.example.android.shopup.ui.fragments.mainlistsfragment;
 
 import android.app.Application;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
-
 import com.example.android.shopup.database.repository.ShoppingListsRepository;
 import com.example.android.shopup.models.ShoppingList;
 import com.example.android.shopup.ui.fragments.mainlistsfragment.listsrecycler.ListsRecyclerViewModel;
 import com.example.android.shopup.utils.BaseAndroidViewModel;
 import com.example.android.shopup.utils.Navigator;
-
 import java.util.List;
 
 public class MainListsViewModel extends BaseAndroidViewModel {
@@ -20,23 +17,22 @@ public class MainListsViewModel extends BaseAndroidViewModel {
     public ListsRecyclerViewModel listsRecyclerViewModel;
     public ObservableField<Integer> emptyMainListTextVisibility;
     public ShoppingListsRepository shoppingListsRepository;
-    public LiveData<List<ShoppingList>> allShoppingLists;
-
+    public LiveData<List<ShoppingList>> allActiveShoppingLists;
 
     public MainListsViewModel(@NonNull Application application) {
         super(application);
         listsRecyclerViewModel = new ListsRecyclerViewModel();
         emptyMainListTextVisibility = new ObservableField<>(View.GONE);
         shoppingListsRepository = new ShoppingListsRepository(application);
-        allShoppingLists = shoppingListsRepository.getAllObjects();
+        allActiveShoppingLists = shoppingListsRepository.getAllActiveLists();
     }
 
     public void setupMainListsRecyclerAdapter(){
-        if(allShoppingLists.getValue().isEmpty()){
+        if(allActiveShoppingLists.getValue().isEmpty()){
             emptyMainListTextVisibility.set(View.VISIBLE);
         } else {
             emptyMainListTextVisibility.set(View.GONE);
-            listsRecyclerViewModel.setListsToRecycler(allShoppingLists.getValue());
+            listsRecyclerViewModel.setListsToRecycler(allActiveShoppingLists.getValue());
         }
     }
 
@@ -44,7 +40,7 @@ public class MainListsViewModel extends BaseAndroidViewModel {
         getNavigator().moveForward(Navigator.Options.OPEN_NAME_LIST_FRAGMENT);
     }
 
-    public LiveData<List<ShoppingList>> getAllShoppingLists(){
-        return allShoppingLists;
+    public LiveData<List<ShoppingList>> getActiveShoppingLists(){
+        return allActiveShoppingLists;
     }
 }

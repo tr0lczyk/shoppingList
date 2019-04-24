@@ -22,6 +22,7 @@ public class MainActivity extends BaseActivity {
     private static final int NAME_LIST_ID = 2;
     public static final int LIST_ID = 3;
     public static final String LIST_NAME = "listName";
+    public static final String SHOPPING_LIST_KEY = "shoppingListId";
     private FragmentManager fragmentManager;
 
     @Override
@@ -84,12 +85,16 @@ public class MainActivity extends BaseActivity {
                         .commit();
                 break;
             case OPEN_LIST_FRAGMENT:
+                Bundle listBundle = new Bundle();
+                if(data.length > 0 && data[0] != null){
+                    listBundle.putInt(SHOPPING_LIST_KEY, (Integer) data[0]);
+                }
                 FragmentTransaction listTransaction = fragmentManager.beginTransaction();
                 addEnterExitAnimationsRight(listTransaction);
                 listTransaction
                         .replace(
                                 R.id.mainContainer,
-                                ListFragment.newInstance(LIST_ID, new Bundle())
+                                ListFragment.newInstance(LIST_ID, listBundle)
                         )
                         .addToBackStack("listTransaction")
                         .commit();

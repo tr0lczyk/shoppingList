@@ -50,4 +50,12 @@ public class ShoppingList {
     public void setArchived(boolean archived) {
         isArchived = archived;
     }
+
+    public List<ShoppingItem> getShoppingItems() {
+        return shoppingItems;
+    }
+
+    public void setShoppingItems(List<ShoppingItem> shoppingItems) {
+        this.shoppingItems = shoppingItems;
+    }
 }

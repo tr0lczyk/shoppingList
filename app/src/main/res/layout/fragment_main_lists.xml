@@ -83,8 +83,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/close_text_background"
                 android:paddingStart="8dp"
@@ -94,7 +94,7 @@
                 android:text="Archive"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/mainListsRecycler"
-                app:layout_constraintEnd_toEndOf="@+id/toolbarContainer"
+                app:layout_constraintStart_toStartOf="@+id/toolbarContainer"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

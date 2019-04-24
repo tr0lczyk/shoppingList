@@ -65,23 +65,11 @@
                 android:id="@+id/listRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginBottom="56dp"
                 app:adapter="@{viewModel.listItemRecyclerViewModel.adapter}"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/addItemContainer"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/listFragmentToolbarContainer" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/listAddItemMenuButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:layout_marginEnd="32dp"
-                android:onClick="@{viewModel.openAddItemMenu}"
-                android:src="@drawable/ic_add_white_24dp"
-                app:setFabAnimation="@{viewModel.fabAnimationStart}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:maxImageSize="40dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addItemContainer"
@@ -91,7 +79,7 @@
                 android:background="@color/mainCoolColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/listRecycler">
+                app:layout_constraintTop_toBottomOf="parent">
 
                 <EditText
                     android:id="@+id/addItemEditText"
@@ -150,6 +138,19 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/listAddItemMenuButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:layout_marginEnd="32dp"
+                android:onClick="@{viewModel.openAddItemMenu}"
+                android:src="@drawable/ic_add_white_24dp"
+                app:setFabAnimation="@{viewModel.fabAnimationStart}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:maxImageSize="40dp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,7 +1,6 @@
 package com.example.android.shopup.ui.fragments.namelistfragment;
 
 import android.app.Application;
-import android.content.Context;
 import android.view.View;
 import android.widget.Toast;
 
@@ -9,18 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.Observable;
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.LiveData;
 
 import com.example.android.shopup.R;
 import com.example.android.shopup.database.repository.ShoppingListsRepository;
 import com.example.android.shopup.models.ShoppingList;
 import com.example.android.shopup.utils.BaseAndroidViewModel;
 import com.example.android.shopup.utils.Navigator;
-
-import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NameListViewModel extends BaseAndroidViewModel {
 
@@ -67,9 +60,9 @@ public class NameListViewModel extends BaseAndroidViewModel {
 
     public void openListFragment(View view){
         if(createListNameFilled.get()){
+            getNavigator().moveForward(Navigator.Options.HIDE_KEYBOARD);
             ShoppingList currentShoppingList = new ShoppingList(createListName.get());
             shoppingListsRepository.insert(currentShoppingList);
-            getNavigator().moveForward(Navigator.Options.HIDE_KEYBOARD);
             getNavigator().moveForward(Navigator.Options.POP_BACKSTACK);
             getNavigator().moveForward(Navigator.Options.OPEN_LIST_FRAGMENT);
         } else {

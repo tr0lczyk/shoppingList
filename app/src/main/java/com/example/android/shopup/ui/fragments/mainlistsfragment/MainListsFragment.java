@@ -1,7 +1,11 @@
 package com.example.android.shopup.ui.fragments.mainlistsfragment;
 
+import android.graphics.Canvas;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -61,15 +65,54 @@ public class MainListsFragment extends BaseFragment {
         super.afterViews(savedInstanceState);
         getViewDataBinding().setViewModel(getViewModel());
         getViewModel().attachNavigator(this);
+        getViewModel().listsRecyclerViewModel.attachNavigator(this);
         setupMainListsRecycler();
-        getViewModel().getAllShoppingLists().observe(getActivity(), new Observer<List<ShoppingList>>() {
-            @Override
-            public void onChanged(List<ShoppingList> shoppingLists) {
-                getViewModel().setupMainListsRecyclerAdapter();
-            }
-        });
+        getViewModel().getActiveShoppingLists().observe(getActivity(), shoppingLists -> getViewModel().setupMainListsRecyclerAdapter());
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+            private Drawable icon = getResources().getDrawable(R.drawable.ic_delete_white_24dp);
+            private ColorDrawable background = new ColorDrawable(0xFFFF0000);
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder,
+                                    float dX, float dY, int actionState,
+                                    boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder,
+                        dX, dY, actionState, isCurrentlyActive);
+                View itemView = viewHolder.itemView;
+                int backgroundCornerOffset = 20;
+
+                if (dX > 0) {
+                    icon = getResources().getDrawable(R.drawable.ic_archive_white_32dp);
+                    int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+                    int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+                    int iconBottom = iconTop + icon.getIntrinsicHeight();
+                    int iconLeft = itemView.getLeft() + iconMargin;
+                    int iconRight = iconLeft + icon.getIntrinsicWidth();
+                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+                    background = new ColorDrawable(0xFFFFBB33);
+                    background.setBounds(itemView.getLeft(), itemView.getTop(),
+                            itemView.getLeft() + ((int) dX) + backgroundCornerOffset, itemView.getBottom());
+                } else if (dX < 0) {
+                    icon = getResources().getDrawable(R.drawable.ic_delete_white_24dp);
+                    int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+                    int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
+                    int iconBottom = iconTop + icon.getIntrinsicHeight();
+                    int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
+                    int iconRight = itemView.getRight() - iconMargin;
+                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+                    background = new ColorDrawable(0xFFFF0000);
+                    background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
+                            itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                } else {
+                    background.setBounds(0, 0, 0, 0);
+                }
+
+                background.draw(c);
+                icon.draw(c);
+            }
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -78,10 +121,12 @@ public class MainListsFragment extends BaseFragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if(direction == ItemTouchHelper.LEFT){
-                   ShoppingList currentShoppingList = getViewModel().allShoppingLists.getValue().get(viewHolder.getAdapterPosition());
+                   ShoppingList currentShoppingList = getViewModel().allActiveShoppingLists.getValue().get(viewHolder.getAdapterPosition());
                    getViewModel().shoppingListsRepository.delete(currentShoppingList);
                 } else {
-
+                    ShoppingList currentShoppingList = getViewModel().allActiveShoppingLists.getValue().get(viewHolder.getAdapterPosition());
+                    currentShoppingList.isArchived = true;
+                    getViewModel().shoppingListsRepository.update(currentShoppingList);
                 }
             }
         }).attachToRecyclerView(getViewDataBinding().mainListsRecycler);

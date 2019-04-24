@@ -26,6 +26,10 @@ public class ListsRecyclerItem extends BaseCardView implements BaseItemView<List
         getViewDataBinding().executePendingBindings();
     }
 
+    public void setOnClickListener(OnClickListener onClickListener){
+        getViewDataBinding().mainListsItemContainer.setOnClickListener(onClickListener);
+    }
+
     @Override
     protected int contentId() {
         return R.layout.main_lists_item;

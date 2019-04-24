@@ -24,8 +24,8 @@ public class ShoppingListsRepository extends BaseRepository<ShoppingList> {
         super(application);
         shoppingListDao = database.getSgoppingListDao();
         shoppingLists = shoppingListDao.getAllItems();
-        shoppingListsActive = shoppingListDao.getAllItemsifArchivedOrNot(true);
-        shoppingListsArchived = shoppingListDao.getAllItemsifArchivedOrNot(false);
+        shoppingListsActive = shoppingListDao.getAllItemsifArchivedOrNot(false);
+        shoppingListsArchived = shoppingListDao.getAllItemsifArchivedOrNot(true);
     }
 
     @Override
@@ -64,6 +64,10 @@ public class ShoppingListsRepository extends BaseRepository<ShoppingList> {
 
     public LiveData<List<ShoppingList>> getAllArchivedLists() {
         return shoppingListsArchived;
+    }
+
+    public LiveData<ShoppingList> getLastShoppingList() {
+        return shoppingListDao.getLastItem();
     }
 
     private class InsertAsyncTask extends AsyncTask<ShoppingList, Void, Void> {
