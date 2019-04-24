@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Application;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.Observable;
@@ -11,6 +12,7 @@ import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.android.shopup.R;
 import com.example.android.shopup.database.repository.ShoppingListsRepository;
 import com.example.android.shopup.models.ShoppingItem;
 import com.example.android.shopup.models.ShoppingList;
@@ -20,6 +22,8 @@ import com.example.android.shopup.utils.Navigator;
 import com.example.android.shopup.utils.Utils;
 
 import java.util.List;
+
+import okhttp3.internal.Util;
 
 public class ListViewModel extends BaseAndroidViewModel {
 
@@ -81,12 +85,16 @@ public class ListViewModel extends BaseAndroidViewModel {
     }
 
     public void addNewItem(View view) {
-        ShoppingItem newShoppingItem = new ShoppingItem(newItemName.get());
-        List<ShoppingItem> shoppingItemsList = shoppingItems.getValue();
-        shoppingItemsList.add(newShoppingItem);
-        shoppingItems.setValue(shoppingItemsList);
-        newItemName.set("");
-
+        if(!Utils.isEmpty(newItemName.get())){
+            ShoppingItem newShoppingItem = new ShoppingItem(newItemName.get());
+            List<ShoppingItem> shoppingItemsList = shoppingItems.getValue();
+            shoppingItemsList.add(newShoppingItem);
+            shoppingItems.setValue(shoppingItemsList);
+            newItemName.set("");
+        } else {
+            Toast.makeText(getApplication().getApplicationContext(), R.string.nameless_item,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     public LiveData<ShoppingList> getLastShoppingList() {

@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity {
                 break;
             case OPEN_NAME_LIST_FRAGMENT:
                 FragmentTransaction nameListTransaction = fragmentManager.beginTransaction();
-                addEnterExitAnimationsRight(nameListTransaction);
+                addEnterExitAnimationsLeft(nameListTransaction);
                 nameListTransaction
                         .replace(
                                 R.id.mainContainer,

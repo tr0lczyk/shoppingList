@@ -34,6 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
+                    android:textSize="10sp"
                     android:textColor="@color/white"
                     android:text="@string/swipe_left_to_delete"
                     android:visibility="@{viewModel.infoMessageVisibility}"
