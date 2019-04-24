@@ -1,12 +1,7 @@
 package com.example.android.shopup.database.repository;
 
 import android.app.Application;
-
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
-
-import com.example.android.shopup.models.ShoppingList;
-
 import java.util.List;
 
 abstract class BaseRepository<T> {

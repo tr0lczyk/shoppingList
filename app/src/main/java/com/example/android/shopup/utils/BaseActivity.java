@@ -13,7 +13,6 @@ import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProviders;
 import java.io.Serializable;
 
-
 public abstract class BaseActivity extends AppCompatActivity implements
         Navigator,
         ViewModelIntegration {
@@ -28,7 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
         if (contentId() != 0) {
             viewDataBinding = DataBindingUtil.setContentView(this, contentId());
         } else {
-//            Timber.d("You didn't setup content layout at: %s", getClass().getName());
+
         }
 
         if (viewModel == null) {

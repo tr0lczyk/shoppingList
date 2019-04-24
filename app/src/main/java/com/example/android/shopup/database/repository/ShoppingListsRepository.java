@@ -3,13 +3,9 @@ package com.example.android.shopup.database.repository;
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.LiveData;
-
 import com.example.android.shopup.database.dao.ShoppingListDao;
 import com.example.android.shopup.models.ShoppingList;
-
 import java.util.List;
 
 public class ShoppingListsRepository extends BaseRepository<ShoppingList> {

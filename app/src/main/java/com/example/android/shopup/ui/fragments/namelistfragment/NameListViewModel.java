@@ -25,7 +25,8 @@ public class NameListViewModel extends BaseAndroidViewModel {
 
     public NameListViewModel(@NonNull Application application) {
         super(application);
-        createListButtonTextColor = new ObservableField<>(ContextCompat.getColor(getApplication().getApplicationContext(), R.color.white));
+        createListButtonTextColor = new ObservableField<>(
+                ContextCompat.getColor(getApplication().getApplicationContext(), R.color.white));
         createListButtonBackground = new ObservableField<>(R.drawable.namelist_button);
         createListName = new ObservableField<>();
         createListNameFilled = new ObservableField<>(false);
@@ -45,12 +46,14 @@ public class NameListViewModel extends BaseAndroidViewModel {
     }
 
     private void nameListEditTextFilled() {
-        createListButtonTextColor.set(ContextCompat.getColor(getApplication().getApplicationContext(), R.color.mainCoolColor));
+        createListButtonTextColor.set(ContextCompat.getColor(
+                getApplication().getApplicationContext(), R.color.mainCoolColor));
         createListButtonBackground.set(R.drawable.namelist_filled_button);
     }
 
     private void nameListEditTextEmpty() {
-        createListButtonTextColor.set(ContextCompat.getColor(getApplication().getApplicationContext(), R.color.white));
+        createListButtonTextColor.set(ContextCompat.getColor(
+                getApplication().getApplicationContext(), R.color.white));
         createListButtonBackground.set(R.drawable.namelist_button);
     }
 
@@ -63,6 +66,7 @@ public class NameListViewModel extends BaseAndroidViewModel {
             getNavigator().moveForward(Navigator.Options.HIDE_KEYBOARD);
             ShoppingList currentShoppingList = new ShoppingList(createListName.get());
             shoppingListsRepository.insert(currentShoppingList);
+            getNavigator().moveForward(Navigator.Options.CHANGE_NAME_LIST_ANIMATION);
             getNavigator().moveForward(Navigator.Options.POP_BACKSTACK);
             getNavigator().moveForward(Navigator.Options.OPEN_LIST_FRAGMENT);
         } else {

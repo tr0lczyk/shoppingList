@@ -22,11 +22,14 @@ public class ListsRecyclerViewModel extends RecyclerViewModel<ListsRecyclerItemV
     public ListsRecyclerViewModel() {
         listsRecyclerItemViewModels = new ArrayList<>();
         onItemClickListener = view -> {
-            ListsRecyclerItemViewModel listsRecyclerItemViewModel = (ListsRecyclerItemViewModel) view.getTag(R.attr.itemModel);
+            ListsRecyclerItemViewModel listsRecyclerItemViewModel =
+                    (ListsRecyclerItemViewModel) view.getTag(R.attr.itemModel);
             switch (view.getId()) {
                 case R.id.mainListsItemContainer:
                     if (isNavigatorAttached()) {
-                        getNavigator().moveForward(Navigator.Options.OPEN_LIST_FRAGMENT,listsRecyclerItemViewModel.shoppingListId.get());
+                        getNavigator().moveForward(Navigator.Options.OPEN_LIST_FRAGMENT,
+                                listsRecyclerItemViewModel.shoppingListId.get(),
+                                listsRecyclerItemViewModel.isArchived.get());
                     }
                     break;
             }

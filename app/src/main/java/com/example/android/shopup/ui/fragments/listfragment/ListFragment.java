@@ -1,10 +1,8 @@
 package com.example.android.shopup.ui.fragments.listfragment;
 
-import android.graphics.Canvas;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -19,11 +17,13 @@ import com.example.android.shopup.models.ShoppingItem;
 import com.example.android.shopup.models.ShoppingList;
 import com.example.android.shopup.utils.BaseAndroidViewModel;
 import com.example.android.shopup.utils.BaseFragment;
+import com.example.android.shopup.utils.SwipeItemController;
 
 import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
 
 import java.util.List;
 
+import static com.example.android.shopup.ui.activities.MainActivity.IS_ARCHIVED_KEY;
 import static com.example.android.shopup.ui.activities.MainActivity.SHOPPING_LIST_KEY;
 
 public class ListFragment extends BaseFragment {
@@ -69,119 +69,112 @@ public class ListFragment extends BaseFragment {
         super.afterViews(savedInstanceState);
         getViewDataBinding().setViewModel(getViewModel());
         getViewModel().attachNavigator(this);
-        if(getArguments().getInt(SHOPPING_LIST_KEY) > 0){
+        getViewModel().listItemRecyclerViewModel.attachNavigator(this);
+        getViewModel().isArchived.set(getArguments().getBoolean(IS_ARCHIVED_KEY));
+        if (getArguments().getInt(SHOPPING_LIST_KEY) > 0) {
             getViewModel().shoppingItemId.set(getArguments().getInt(SHOPPING_LIST_KEY));
-            getViewModel().getShoppingListWithId().observe(getActivity(), new Observer<ShoppingList>() {
-                @Override
-                public void onChanged(ShoppingList shoppingList) {
-                    updateList(shoppingList);
-                    getViewModel().getShoppingListWithId().removeObservers(getActivity());
-                }
+            getViewModel().getShoppingListWithId().observe(getActivity(), shoppingList -> {
+                updateList(shoppingList);
+                getViewModel().getShoppingListWithId().removeObservers(getActivity());
             });
         } else {
-            getViewModel().getLastShoppingList().observe(getActivity(), new Observer<ShoppingList>() {
-                @Override
-                public void onChanged(ShoppingList shoppingList) {
-                    updateList(shoppingList);
-                    getViewModel().getLastShoppingList().removeObservers(getActivity());
-                }
+            getViewModel().getLastShoppingList().observe(getActivity(), shoppingList -> {
+                updateList(shoppingList);
+                getViewModel().getLastShoppingList().removeObservers(getActivity());
             });
         }
         setupMainListsRecycler();
-        getViewModel().shoppingItems.observe(getActivity(), new Observer<List<ShoppingItem>>() {
-            @Override
-            public void onChanged(List<ShoppingItem> shoppingItems) {
+        getViewModel().shoppingItems.observe(getActivity(), shoppingItems -> {
+            getViewModel().setupListRecyclerAdapter();
+            if (getViewModel().currentShoppingList.get() != null) {
+                ShoppingList newShoppingList = getViewModel().currentShoppingList.get();
+                newShoppingList.setShoppingItems(shoppingItems);
+                getViewModel().updateList(newShoppingList);
                 getViewModel().setupListRecyclerAdapter();
-                if(getViewModel().currentShoppingList.get() != null){
-                    ShoppingList newShoppingList = getViewModel().currentShoppingList.get();
-                    newShoppingList.setShoppingItems(shoppingItems);
-                    getViewModel().updateList(newShoppingList);
-                    getViewModel().setupListRecyclerAdapter();
-                }
             }
         });
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT) {
-
-            private Drawable icon = getResources().getDrawable(R.drawable.ic_delete_white_24dp);
-            private ColorDrawable background = new ColorDrawable(0xFFFF0000);
-
-            @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
-                                    @NonNull RecyclerView.ViewHolder viewHolder,
-                                    float dX, float dY, int actionState,
-                                    boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder,
-                        dX, dY, actionState, isCurrentlyActive);
-                View itemView = viewHolder.itemView;
-                int backgroundCornerOffset = 20;
-
-                int iconMargin = (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
-                int iconTop = itemView.getTop() + (itemView.getHeight() - icon.getIntrinsicHeight()) / 2;
-                int iconBottom = iconTop + icon.getIntrinsicHeight();
-
-                if (dX < 0) {
-                    int iconLeft = itemView.getRight() - iconMargin - icon.getIntrinsicWidth();
-                    int iconRight = itemView.getRight() - iconMargin;
-                    icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
-                    background.setBounds(itemView.getRight() + ((int) dX) - backgroundCornerOffset,
-                            itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                } else {
-                    background.setBounds(0, 0, 0, 0);
-                }
-
-                background.draw(c);
-                icon.draw(c);
-            }
-
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                if(direction == ItemTouchHelper.LEFT){
-                    List<ShoppingItem> currentShoppingItems = getViewModel().shoppingItems.getValue();
-                    currentShoppingItems.remove(viewHolder.getAdapterPosition());
-                    getViewModel().shoppingItems.postValue(currentShoppingItems);
-                }
-            }
-        }).attachToRecyclerView(getViewDataBinding().listRecycler);
+        initSwipe(getViewDataBinding().listRecycler);
     }
 
     @Override
     public void moveForward(Options options, Object... data) {
         super.moveForward(options, data);
-        switch(options){
+        switch (options) {
+            case UPDATE_ITEM_CHECKBOX:
+                if (data.length > 0 &&
+                        data[0] != null &&
+                        data[1] != null) {
+                    boolean isBought = (boolean) data[0];
+                    int itemPosition = (int) data[1];
+                    updateItemList(isBought,itemPosition);
+                    break;
+                }
             case OPEN_ADD_LIST_MENU:
                 openAddListItemMenu();
                 break;
             case CLOSE_ADD_LIST_MENU:
                 closeAddListItemMenu();
                 break;
+            case SHOW_ISARCHIVED_DIALOG:
+                archivedDialog();
+                break;
         }
     }
 
-    private void setupMainListsRecycler(){
-        getViewDataBinding().listRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false));
+    private void setupMainListsRecycler() {
+        getViewDataBinding().listRecycler.setLayoutManager(
+                new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
+        getViewDataBinding().listRecycler.setNestedScrollingEnabled(false);
     }
 
-    public void openAddListItemMenu(){
+    private void openAddListItemMenu() {
         getViewDataBinding().addItemEditText.requestFocus();
-        UIUtil.showKeyboard(getActivity(),getViewDataBinding().addItemEditText);
+        UIUtil.showKeyboard(getActivity(), getViewDataBinding().addItemEditText);
     }
 
-    public void closeAddListItemMenu(){
+    private void closeAddListItemMenu() {
         getViewDataBinding().addItemEditText.clearFocus();
         UIUtil.hideKeyboard(getActivity());
-        getViewDataBinding().addItemContainer.animate().translationY(0).start();
-        getViewDataBinding().listAddItemMenuButton.animate().translationX(0).start();
     }
 
-    public void updateList(ShoppingList shoppingList){
+    private void updateList(ShoppingList shoppingList) {
         getViewModel().listName.set(shoppingList.name);
         getViewModel().shoppingItems.setValue(shoppingList.shoppingItems);
         getViewModel().currentShoppingList.set(shoppingList);
+    }
+
+    private void updateItemList(boolean isBought, int position) {
+        List<ShoppingItem> currentShoppingItems = getViewModel().shoppingItems.getValue();
+        currentShoppingItems.get(position).isBought = isBought;
+        getViewModel().shoppingItems.setValue(currentShoppingItems);
+    }
+
+    private void initSwipe(RecyclerView recyclerView) {
+        if(!getViewModel().isArchived.get()){
+            SwipeItemController swipeItemController = new SwipeItemController(getActivity()) {
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    if (direction == ItemTouchHelper.LEFT) {
+                        List<ShoppingItem> currentShoppingItems =
+                                getViewModel().shoppingItems.getValue();
+                        currentShoppingItems.remove(viewHolder.getAdapterPosition());
+                        getViewModel().shoppingItems.postValue(currentShoppingItems);
+                    }
+                }
+            };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeItemController);
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+        }
+    }
+
+    public void archivedDialog(){
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        dialogBuilder
+                .setTitle(R.string.app_name2)
+                .setMessage(R.string.dialog_isarchived_text)
+                .setCancelable(true)
+                .setPositiveButton(R.string.dialog_isarchived_positive_button,
+                        (dialogInterface, i) -> dialogInterface.dismiss())
+                .create().show();
     }
 }

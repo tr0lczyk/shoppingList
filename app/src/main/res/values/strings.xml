@@ -5,4 +5,16 @@
     <string name="main_lists_separator">/</string>
     <string name="newListPlaceholder">New List</string>
     <string name="nameListWarning">Please name your list :)</string>
+    <string name="nameless_item">Yor item is nameless, please name it</string>
+    <string name="app_name2">ShopUp!</string>
+    <string name="dialog_isarchived_text">This list has been archived and you are unable to edit it.</string>
+    <string name="dialog_isarchived_positive_button">OK</string>
+    <string name="swipe_left_to_delete">Swipe left to delete</string>
+    <string name="swipe_right_to_archive">Swipe right to archive</string>
+    <string name="archive">Archive</string>
+    <string name="back">Back</string>
+    <string name="create_list">Create list</string>
+    <string name="close">Close</string>
+    <string name="there_are_no_archived_lists">There are no archived lists</string>
+    <string name="active_lists">Active Lists</string>
 </resources>

@@ -22,7 +22,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/main_lists_item_background"
+            android:setDrawableBackground="@{viewModel.itemBackground}"
             android:elevation="4dp">
 
             <TextView
@@ -45,7 +45,20 @@
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:checked="@={viewModel.itemBought}"/>
+
+            <View
+                android:id="@+id/blockView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorFullTransparent"
+                android:clickable="true"
+                android:visibility="@{viewModel.blockViewVisibility}"
+                app:layout_constraintBottom_toBottomOf="@+id/listItemCheckBox"
+                app:layout_constraintEnd_toEndOf="@+id/listItemCheckBox"
+                app:layout_constraintStart_toStartOf="@+id/listItemCheckBox"
+                app:layout_constraintTop_toTopOf="@+id/listItemCheckBox" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

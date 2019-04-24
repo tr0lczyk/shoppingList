@@ -3,11 +3,20 @@ package com.example.android.shopup.ui.activities;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.transition.Slide;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.transition.Transition;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
 
 import com.example.android.shopup.R;
 import com.example.android.shopup.databinding.ActivityMainBinding;
+import com.example.android.shopup.ui.fragments.archivefragment.ArchiveFragment;
 import com.example.android.shopup.ui.fragments.listfragment.ListFragment;
 import com.example.android.shopup.ui.fragments.mainlistsfragment.MainListsFragment;
 import com.example.android.shopup.ui.fragments.namelistfragment.NameListFragment;
@@ -23,6 +32,8 @@ public class MainActivity extends BaseActivity {
     public static final int LIST_ID = 3;
     public static final String LIST_NAME = "listName";
     public static final String SHOPPING_LIST_KEY = "shoppingListId";
+    private static final int ARCHIVE_ID = 4;
+    public static final String IS_ARCHIVED_KEY = "isArchived";
     private FragmentManager fragmentManager;
 
     @Override
@@ -56,14 +67,14 @@ public class MainActivity extends BaseActivity {
         super.afterViews(savedInstanceState);
         getViewDataBinding().setViewModel(getViewModel());
         getViewModel().attachNavigator(this);
-        moveForward(Options.OPEN_MAIN_LISTS_FRAGMENT);;
+        moveForward(Options.OPEN_FIRST_MAIN_LISTS_FRAGMENT);
     }
 
     @Override
     public void moveForward(Options options, Object... data) {
         super.moveForward(options, data);
-        switch(options){
-            case OPEN_MAIN_LISTS_FRAGMENT:
+        switch (options) {
+            case OPEN_FIRST_MAIN_LISTS_FRAGMENT:
                 fragmentManager
                         .beginTransaction()
                         .replace(
@@ -71,6 +82,17 @@ public class MainActivity extends BaseActivity {
                                 MainListsFragment.newInstance(MAIN_LISTS_ID, new Bundle())
                         )
                         .addToBackStack("mainListsFragment")
+                        .commit();
+                break;
+            case OPEN_MAIN_LISTS_FRAGMENT:
+                FragmentTransaction mainListsTransaction = fragmentManager.beginTransaction();
+                addEnterExitAnimationsRight(mainListsTransaction);
+                mainListsTransaction
+                        .replace(
+                                R.id.mainContainer,
+                                MainListsFragment.newInstance(MAIN_LISTS_ID, new Bundle())
+                        )
+                        .addToBackStack("mainListsFragmentWithTransaction")
                         .commit();
                 break;
             case OPEN_NAME_LIST_FRAGMENT:
@@ -86,8 +108,11 @@ public class MainActivity extends BaseActivity {
                 break;
             case OPEN_LIST_FRAGMENT:
                 Bundle listBundle = new Bundle();
-                if(data.length > 0 && data[0] != null){
+                if (data.length > 0 &&
+                        data[0] != null &&
+                        data[1] != null) {
                     listBundle.putInt(SHOPPING_LIST_KEY, (Integer) data[0]);
+                    listBundle.putBoolean(IS_ARCHIVED_KEY, (Boolean) data[1]);
                 }
                 FragmentTransaction listTransaction = fragmentManager.beginTransaction();
                 addEnterExitAnimationsRight(listTransaction);
@@ -97,6 +122,17 @@ public class MainActivity extends BaseActivity {
                                 ListFragment.newInstance(LIST_ID, listBundle)
                         )
                         .addToBackStack("listTransaction")
+                        .commit();
+                break;
+            case OPEN_ARCHIVE_FRAGMENT:
+                FragmentTransaction archiveTransaction = fragmentManager.beginTransaction();
+                addEnterExitAnimationsLeft(archiveTransaction);
+                archiveTransaction
+                        .replace(
+                                R.id.mainContainer,
+                                ArchiveFragment.newInstance(ARCHIVE_ID, new Bundle())
+                        )
+                        .addToBackStack("archiveTransaction")
                         .commit();
                 break;
             case ON_BACK_PRESSED:
@@ -114,7 +150,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         Fragment fragment = fragmentManager.findFragmentById(R.id.mainContainer);
-        if(fragment instanceof MainListsFragment){
+        if (fragment instanceof MainListsFragment) {
             finish();
         } else {
             super.onBackPressed();
@@ -122,10 +158,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addEnterExitAnimationsRight(FragmentTransaction fragmentTransaction) {
-        fragmentTransaction.setCustomAnimations(R.anim.entr_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right);
+        fragmentTransaction.setCustomAnimations(
+                R.anim.entr_from_right, R.anim.exit_to_left,
+                R.anim.enter_from_left, R.anim.exit_to_right);
     }
 
     private void addEnterExitAnimationsLeft(FragmentTransaction fragmentTransaction) {
-        fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.entr_from_right, R.anim.exit_to_left);
+        fragmentTransaction.setCustomAnimations(
+                R.anim.enter_from_left, R.anim.exit_to_right,
+                R.anim.entr_from_right, R.anim.exit_to_left);
     }
 }

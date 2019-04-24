@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.android.shopup.ui.fragments.mainlistsfragment.MainListsViewModel" />
+            type="com.example.android.shopup.ui.fragments.archivefragment.ArchiveViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/toolbarContainer"
+                android:id="@+id/archiveToolbarContainer"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/mainCoolColor"
@@ -29,46 +29,16 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/appTitle"
+                    android:id="@+id/archiveTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/app_name2"
+                    android:text="@string/archive"
                     android:textSize="20sp"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/deleteMessage"
-                    android:layout_width="0dp"
-                    android:gravity="end"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:paddingEnd="4dp"
-                    android:text="@string/swipe_left_to_delete"
-                    android:textColor="@color/white"
-                    android:visibility="@{viewModel.infoMessageVisibility}"
-                    app:layout_constraintBottom_toTopOf="@+id/archiveMessage"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/appTitle" />
-
-                <TextView
-                    android:id="@+id/archiveMessage"
-                    android:layout_width="0dp"
-                    android:gravity="end"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:paddingBottom="4dp"
-                    android:text="@string/swipe_right_to_archive"
-                    android:textColor="@color/white"
-                    android:visibility="@{viewModel.infoMessageVisibility}"
-                    app:layout_constraintBottom_toBottomOf="@+id/toolbarContainer"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/appTitle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -81,53 +51,40 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:text="@string/empty_main_lists_text"
+                android:text="@string/there_are_no_archived_lists"
                 android:textSize="16sp"
-                android:visibility="@{viewModel.emptyMainListTextVisibility}"
+                android:visibility="@{viewModel.emptyArchivedListTextVisibility}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbarContainer" />
+                app:layout_constraintTop_toBottomOf="@+id/archiveToolbarContainer" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/mainListsRecycler"
+                android:id="@+id/archiveRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:adapter="@{viewModel.listsRecyclerViewModel.adapter}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbarContainer" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/mainListsAddListButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
-                android:onClick="@{viewModel.addNewList}"
-                android:src="@drawable/ic_add_white_24dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:maxImageSize="40dp" />
+                app:layout_constraintTop_toBottomOf="@+id/archiveToolbarContainer" />
 
             <TextView
-                android:id="@+id/openArchiveButton"
+                android:id="@+id/activeListsButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@drawable/close_text_background"
-                android:onClick="@{viewModel.openArchiveFragment}"
                 android:paddingStart="8dp"
                 android:paddingTop="4dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="4dp"
-                android:text="@string/archive"
+                android:onClick="@{viewModel.openMainListsFragment}"
+                android:text="@string/active_lists"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/toolbarContainer"
-                app:layout_constraintStart_toStartOf="@+id/toolbarContainer"
+                app:layout_constraintBottom_toTopOf="@+id/archiveRecycler"
+                app:layout_constraintEnd_toEndOf="@+id/archiveToolbarContainer"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

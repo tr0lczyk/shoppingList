@@ -14,8 +14,6 @@ public class ShoppingList {
     public String name;
     public Date date;
     public List<ShoppingItem> shoppingItems;
-    public int shoppingItemTotalNumber;
-    public int shoppingItemBoughtNumber;
     public boolean isArchived;
 
     public ShoppingList(String name) {
@@ -23,24 +21,6 @@ public class ShoppingList {
         this.date = new Date();
         this.shoppingItems = new ArrayList<>();
         this.isArchived = false;
-        this.shoppingItemTotalNumber = shoppingItems.size();
-        this.shoppingItemBoughtNumber = 0;
-    }
-
-    public int getShoppingItemTotalNumber() {
-        return shoppingItemTotalNumber;
-    }
-
-    public void setShoppingItemTotalNumber(int shoppingItemTotalNumber) {
-        this.shoppingItemTotalNumber = shoppingItemTotalNumber;
-    }
-
-    public int getShoppingItemBoughtNumber() {
-        return shoppingItemBoughtNumber;
-    }
-
-    public void setShoppingItemBoughtNumber(int shoppingItemBoughtNumber) {
-        this.shoppingItemBoughtNumber = shoppingItemBoughtNumber;
     }
 
     public boolean isArchived() {

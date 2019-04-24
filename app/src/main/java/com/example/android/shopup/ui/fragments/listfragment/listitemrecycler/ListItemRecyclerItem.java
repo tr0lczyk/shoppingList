@@ -13,6 +13,11 @@ public class ListItemRecyclerItem extends BaseCardView implements BaseItemView<L
         super(context);
     }
 
+    public void setOnClickListener(OnClickListener onClickListener){
+        getViewDataBinding().listItemCheckBox.setOnClickListener(onClickListener);
+        getViewDataBinding().blockView.setOnClickListener(onClickListener);
+    }
+
     @Override
     protected int contentId() {
         return R.layout.list_item;

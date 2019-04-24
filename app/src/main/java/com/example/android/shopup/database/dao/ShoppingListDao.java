@@ -3,10 +3,8 @@ package com.example.android.shopup.database.dao;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
-
 import com.example.android.shopup.database.BaseDao;
 import com.example.android.shopup.models.ShoppingList;
-
 import java.util.List;
 
 @Dao
