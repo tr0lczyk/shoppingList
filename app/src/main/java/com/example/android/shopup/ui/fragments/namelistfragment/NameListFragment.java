@@ -8,6 +8,8 @@ import com.example.android.shopup.databinding.FragmentNamelistBinding;
 import com.example.android.shopup.utils.BaseAndroidViewModel;
 import com.example.android.shopup.utils.BaseFragment;
 
+import net.yslibrary.android.keyboardvisibilityevent.util.UIUtil;
+
 public class NameListFragment extends BaseFragment {
 
     public static final String ARG_FRAGMENT = "nameListFragment";
@@ -51,5 +53,11 @@ public class NameListFragment extends BaseFragment {
         super.afterViews(savedInstanceState);
         getViewDataBinding().setViewModel(getViewModel());
         getViewModel().attachNavigator(this);
+        focusedOnEditText();
+    }
+
+    private void focusedOnEditText(){
+        getViewDataBinding().nameListEditText.requestFocus();
+        UIUtil.showKeyboard(getActivity(),getViewDataBinding().nameListEditText);
     }
 }

@@ -12,7 +12,7 @@ import com.example.android.shopup.models.ShoppingList;
 
 @Database(entities = ShoppingList.class, version = 5,exportSchema = false)
 @TypeConverters({Converters.class})
-abstract class ShopUpDatabase extends RoomDatabase {
+public abstract class ShopUpDatabase extends RoomDatabase {
 
     private static ShopUpDatabase db;
 

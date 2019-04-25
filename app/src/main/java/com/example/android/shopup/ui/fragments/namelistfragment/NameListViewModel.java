@@ -59,7 +59,7 @@ public class NameListViewModel extends BaseAndroidViewModel {
 
     public void openListFragment(View view){
         if(createListNameFilled.get()){
-            getNavigator().moveForward(Navigator.Options.HIDE_KEYBOARD);
+//            getNavigator().moveForward(Navigator.Options.HIDE_KEYBOARD);
             ShoppingList currentShoppingList = new ShoppingList(createListName.get());
             shoppingListsRepository.insert(currentShoppingList);
             getNavigator().moveForward(Navigator.Options.CHANGE_NAME_LIST_ANIMATION);
@@ -69,5 +69,9 @@ public class NameListViewModel extends BaseAndroidViewModel {
             Toast.makeText(getApplication().getApplicationContext(),
                     R.string.nameListWarning, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void setName(String name){
+        createListName.set(name);
     }
 }
