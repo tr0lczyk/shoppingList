@@ -17,4 +17,5 @@
     <string name="close">Close</string>
     <string name="there_are_no_archived_lists">There are no archived lists</string>
     <string name="active_lists">Active Lists</string>
+    <string name="listNameMock">New list</string>
 </resources>
