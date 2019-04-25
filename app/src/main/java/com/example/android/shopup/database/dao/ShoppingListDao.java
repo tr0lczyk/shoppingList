@@ -22,6 +22,6 @@ public interface ShoppingListDao extends BaseDao<ShoppingList> {
     @Query("SELECT * FROM shoppingList ORDER BY id DESC LIMIT 1")
     LiveData<ShoppingList> getLastItem();
 
-    @Query("SELECT * FROM shoppingList WHERE isArchived = :isArchived")
+    @Query("SELECT * FROM shoppingList WHERE isArchived = :isArchived ORDER BY date DESC")
     LiveData<List<ShoppingList>> getAllItemsifArchivedOrNot(boolean isArchived);
 }

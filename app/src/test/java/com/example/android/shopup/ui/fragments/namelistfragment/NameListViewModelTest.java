@@ -7,10 +7,11 @@ import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
-
+import com.example.android.shopup.R;
 import com.example.android.shopup.database.repository.ShopUpDatabase;
 import com.example.android.shopup.database.repository.ShoppingListsRepository;
-
+import com.example.android.shopup.models.ShoppingList;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,9 +36,24 @@ public class NameListViewModelTest {
         subject = new NameListViewModel(application);
     }
 
+    @After
+    public void closeDb(){
+        shopUpDatabase.close();
+    }
+
     @Test
-    public void setName() {
-        subject.setName("sampleName");
-        assertEquals("sampleName", subject.createListName.get());
+    public void setupNewShoppingList() {
+        subject.createListName.set("testShoppingList");
+        ShoppingList shoppingList = subject.setupNewShoppingList(subject.createListName.get());
+        assertEquals("testShoppingList", shoppingList.name);
+    }
+
+    @Test
+    public void addObserverToSubject() {
+        subject.createListNameFilled.set(false);
+        subject.observeListName();
+        subject.createListName.set("newList");
+        Integer color = R.color.mainCoolColor;
+        assertEquals(color,subject.createListButtonTextColor.get());
     }
 }
