@@ -3,5 +3,5 @@ Application is simple shopping list app where user can create lists of shopping 
 
 The application looks like that:
 
-![](image/shopup1.PNG)![](image/shopup2.PNG)![](image/shopup3.PNG)
+![](image/shopup1.png)![](image/shopup2.png)![](image/shopup3.png)
 
